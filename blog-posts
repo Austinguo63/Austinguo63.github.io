@@ -1,0 +1,20 @@
+<section id="blog-posts">
+        <h2>Blog Posts</h2>
+        <ul>
+          <li><a href="#post-1">Post 1 Title</a></li>
+          <li><a href="#post-2">Post 2 Title</a></li>
+          <li><a href="#post-3">Post 3 Title</a></li>
+        </ul>
+      </section>
+      <section id="post-1">
+        <h3>Post 1 Title</h3>
+        <p>Post 1 content goes here.</p>
+      </section>
+      <section id="post-2">
+        <h3>Post 2 Title</h3>
+        <p>Post 2 content goes here.</p>
+      </section>
+      <section id="post-3">
+        <h3>Post 3 Title</h3>
+        <p>Post 3 content goes here.</p>
+      </section>
