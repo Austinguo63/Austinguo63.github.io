@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>项目时间</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      h1 {
+        font-size: 35px;
+        margin: 0;
+      }
+      h2 {
+        font-size: 25px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding-left: 20px;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      nav ul li {
+        display: inline;
+        margin-right: 20px;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 20px;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: #ddd;
+      }
+      main {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .time-display {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #e9e9e9;
+        margin-bottom: 20px; /* Add margin below each time display block */
+      }
+      .time-display p {
+        font-size: 22px;
+        margin: 10px 0;
+        padding-left: 20px;
+        color: #555;
+      }
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 30px;
+        color: #777;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Project Time - Guo</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Back</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section id="time-elapsed">
+        <h2>Total Time Used (EST):</h2>
+        <div class="time-display">
+          <p id="elapsedSeconds">in Seconds: 计算中...</p>
+          <p id="elapsedMinutes">in Minutes: 计算中...</p>
+          <p id="elapsedHours">in Hours: 计算中...</p>
+          <p id="elapsedDays">in Days: 计算中...</p>
+          <p id="elapsedWeeks">in Weeks: 计算中...</p>
+          <p id="elapsedYears">in Years: 计算中...</p>
+        </div>
+      </section>
+
+      <section id="goal-time-left">
+        <h2>Goal Time Left :</h2>
+        <div class="time-display">
+          <p id="timeLeftSeconds">Left in Sec: 计算中...</p>
+          <p id="timeLeftMinutes">Left in Min: 计算中...</p>
+          <p id="timeLeftHours">Left in Hours: 计算中...</p>
+          <p id="timeLeftDays">Left in Days: 计算中...</p>
+          <p id="timeLeftWeeks">Left in Weeks: 计算中...</p>
+          <p id="timeLeftYears">Left in Years: 计算中...</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>版权所有 © [Hongyu Guo] [2023]</p>
+    </footer>
+
+    <script>
+      // Function to format numbers with commas
+      function formatNumberWithCommas(number) {
+        return number.toLocaleString('en-US');
+      }
+
+      // Function to format the year breakdown (e.g., "X 年, Y 周, Z 天...")
+      function formatYearsBreakdown(totalMs) {
+          if (totalMs < 0) totalMs = 0;
+
+          const msPerSecond = 1000;
+          const msPerMinute = msPerSecond * 60;
+          const msPerHour = msPerMinute * 60;
+          const msPerDay = msPerHour * 24;
+          const msPerWeek = msPerDay * 7;
+          const msPerYear = msPerDay * 365.25; // Using 365.25 for average year length
+
+          let remainingMs = totalMs;
+
+          const years = Math.floor(remainingMs / msPerYear);
+          remainingMs %= msPerYear;
+
+          const weeks = Math.floor(remainingMs / msPerWeek);
+          remainingMs %= msPerWeek;
+
+          const days = Math.floor(remainingMs / msPerDay);
+          remainingMs %= msPerDay;
+
+          const hours = Math.floor(remainingMs / msPerHour);
+          remainingMs %= msPerHour;
+
+          const minutes = Math.floor(remainingMs / msPerMinute);
+          remainingMs %= msPerMinute;
+
+          const seconds = Math.floor(remainingMs / msPerSecond);
+
+          let parts = [];
+          parts.push(`${years} 年`);
+          parts.push(`${weeks} 周`);
+          parts.push(`${days} 天`);
+          parts.push(`${hours} 小时`);
+          parts.push(`${minutes} 分`);
+          parts.push(`${seconds} 秒`);
+
+          return parts.join(', ');
+      }
+
+      function calculateTimeElapsed() {
+        // Define the start date (April 8, 2000, 00:00:00 EST/EDT)
+        // On April 8, 2000, Eastern Daylight Time (EDT, UTC-4) would have been in effect.
+        const startDate = new Date('2000-04-08T00:00:00-04:00'); 
+        
+        // Define the goal date (April 8, 2045, 00:00:00 EST/EDT)
+        const goalDate = new Date('2045-04-08T00:00:00-04:00');
+
+        // Get the current date and time
+        const now = new Date();
+
+        // --- Constants for time units in milliseconds ---
+        const msPerSecond = 1000;
+        const msPerMinute = msPerSecond * 60;
+        const msPerHour = msPerMinute * 60;
+        const msPerDay = msPerHour * 24;
+        const msPerWeek = msPerDay * 7;
+        const msPerYear = msPerDay * 365.25; // Using 365.25 for average year length
+
+        // --- Calculate elapsed time from 2000-04-08 ---
+        let diffMsElapsed = now.getTime() - startDate.getTime();
+
+        // Calculate total seconds, minutes, hours, days, weeks
+        const totalSecondsElapsed = Math.floor(diffMsElapsed / msPerSecond);
+        const totalMinutesElapsed = Math.floor(diffMsElapsed / msPerMinute);
+        const totalHoursElapsed = Math.floor(diffMsElapsed / msPerHour);
+        const totalDaysElapsed = Math.floor(diffMsElapsed / msPerDay);
+        const totalWeeksElapsed = Math.floor(diffMsElapsed / msPerWeek);
+        
+        // Display elapsed time results
+        document.getElementById('elapsedSeconds').textContent = `in Seconds: ${formatNumberWithCommas(totalSecondsElapsed)} `;
+        document.getElementById('elapsedMinutes').textContent = `in Minutes: ${formatNumberWithCommas(totalMinutesElapsed)} `;
+        document.getElementById('elapsedHours').textContent = `in Hours: ${formatNumberWithCommas(totalHoursElapsed)} `;
+        document.getElementById('elapsedDays').textContent = `in Days: ${formatNumberWithCommas(totalDaysElapsed)} `;
+        document.getElementById('elapsedWeeks').textContent = `in Weeks: ${formatNumberWithCommas(totalWeeksElapsed)} `;
+        document.getElementById('elapsedYears').textContent = `in Years: ${formatYearsBreakdown(diffMsElapsed)}`;
+
+
+        // --- Calculate time left until 2045-04-08 ---
+        let diffMsLeft = goalDate.getTime() - now.getTime();
+
+        // Ensure countdown doesn't go negative
+        if (diffMsLeft < 0) {
+          diffMsLeft = 0; // Set to 0 if goal date has passed
+        }
+
+        // Calculate total seconds, minutes, hours, days, weeks for time left
+        const totalSecondsLeft = Math.floor(diffMsLeft / msPerSecond);
+        const totalMinutesLeft = Math.floor(diffMsLeft / msPerMinute);
+        const totalHoursLeft = Math.floor(diffMsLeft / msPerHour);
+        const totalDaysLeft = Math.floor(diffMsLeft / msPerDay);
+        const totalWeeksLeft = Math.floor(diffMsLeft / msPerWeek);
+
+        // Display time left results
+        document.getElementById('timeLeftSeconds').textContent = `Left in Sec: ${formatNumberWithCommas(totalSecondsLeft)} `;
+        document.getElementById('timeLeftMinutes').textContent = `Left in Min: ${formatNumberWithCommas(totalMinutesLeft)} `;
+        document.getElementById('timeLeftHours').textContent = `Left in Hours: ${formatNumberWithCommas(totalHoursLeft)} `;
+        document.getElementById('timeLeftDays').textContent = `Left in Days: ${formatNumberWithCommas(totalDaysLeft)} `;
+        document.getElementById('timeLeftWeeks').textContent = `Left in Weeks: ${formatNumberWithCommas(totalWeeksLeft)} `;
+        document.getElementById('timeLeftYears').textContent = `Left in Years: ${formatYearsBreakdown(diffMsLeft)}`;
+      }
+
+      // Run the calculation initially and then update every second
+      calculateTimeElapsed();
+      setInterval(calculateTimeElapsed, 1000); // Update every second
+    </script>
+  </body>
+</html>
