@@ -153,12 +153,12 @@
           const seconds = Math.floor(remainingMs / msPerSecond);
 
           let parts = [];
-          parts.push(`${years} 年`);
-          parts.push(`${weeks} 周`);
-          parts.push(`${days} 天`);
-          parts.push(`${hours} 小时`);
-          parts.push(`${minutes} 分`);
-          parts.push(`${seconds} 秒`);
+          parts.push(`${years} Year`);
+          parts.push(`${weeks} Week`);
+          parts.push(`${days} Day`);
+          parts.push(`${hours} Hour`);
+          parts.push(`${minutes} Min`);
+          parts.push(`${seconds} Sec`);
 
           return parts.join(', ');
       }
@@ -198,7 +198,7 @@
         document.getElementById('elapsedHours').textContent = `in Hours: ${formatNumberWithCommas(totalHoursElapsed)} `;
         document.getElementById('elapsedDays').textContent = `in Days: ${formatNumberWithCommas(totalDaysElapsed)} `;
         document.getElementById('elapsedWeeks').textContent = `in Weeks: ${formatNumberWithCommas(totalWeeksElapsed)} `;
-        document.getElementById('elapsedYears').textContent = `in Years: ${formatYearsBreakdown(diffMsElapsed)}`;
+        document.getElementById('elapsedYears').textContent = `Total: ${formatYearsBreakdown(diffMsElapsed)}`;
 
 
         // --- Calculate time left until 2045-04-08 ---
@@ -222,7 +222,7 @@
         document.getElementById('timeLeftHours').textContent = `Left in Hours: ${formatNumberWithCommas(totalHoursLeft)} `;
         document.getElementById('timeLeftDays').textContent = `Left in Days: ${formatNumberWithCommas(totalDaysLeft)} `;
         document.getElementById('timeLeftWeeks').textContent = `Left in Weeks: ${formatNumberWithCommas(totalWeeksLeft)} `;
-        document.getElementById('timeLeftYears').textContent = `Left in Years: ${formatYearsBreakdown(diffMsLeft)}`;
+        document.getElementById('timeLeftYears').textContent = `Total Left: ${formatYearsBreakdown(diffMsLeft)}`;
       }
 
       // Run the calculation initially and then update every second
