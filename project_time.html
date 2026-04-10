@@ -88,6 +88,14 @@
       </nav>
     </header>
     <main>
+      <section id="countdown-2026">
+        <h2>Countdown to July 1, 2026:</h2>
+        <div class="time-display">
+          <p id="countdownLine1">倒计时: 计算中...</p>
+          <p id="countdownLine2">倒计时 in mins: 计算中...</p>
+        </div>
+      </section>
+
       <section id="time-elapsed">
         <h2>Total Time Used (EST):</h2>
         <div class="time-display">
@@ -164,6 +172,34 @@
       }
 
       function calculateTimeElapsed() {
+        // --- Constants for countdown box ---
+        const cdMsPerSecond = 1000;
+        const cdMsPerMinute = cdMsPerSecond * 60;
+        const cdMsPerHour = cdMsPerMinute * 60;
+        const cdMsPerDay = cdMsPerHour * 24;
+
+        // --- Countdown to July 1, 2026 ---
+        const countdownTarget = new Date('2026-07-01T00:00:00-04:00');
+        let diffMsCountdown = countdownTarget.getTime() - new Date().getTime();
+
+        if (diffMsCountdown < 0) {
+          diffMsCountdown = 0;
+        }
+
+        const countdownTotalDays = Math.floor(diffMsCountdown / cdMsPerDay);
+        const countdownHours = Math.floor((diffMsCountdown % cdMsPerDay) / cdMsPerHour);
+        const countdownMinutes = Math.floor((diffMsCountdown % cdMsPerHour) / cdMsPerMinute);
+        const countdownSeconds = Math.floor((diffMsCountdown % cdMsPerMinute) / cdMsPerSecond);
+
+        const countdownTotalMinutes = Math.floor(diffMsCountdown / cdMsPerMinute);
+        const countdownRemainSeconds = Math.floor((diffMsCountdown % cdMsPerMinute) / cdMsPerSecond);
+
+        document.getElementById('countdownLine1').textContent =
+          `倒计时: ${formatNumberWithCommas(countdownTotalDays)}天, ${formatNumberWithCommas(countdownHours)}小时, ${formatNumberWithCommas(countdownMinutes)}分钟, ${formatNumberWithCommas(countdownSeconds)}秒`;
+
+        document.getElementById('countdownLine2').textContent =
+          `倒计时 in ${formatNumberWithCommas(countdownTotalMinutes)} mins, ${formatNumberWithCommas(countdownRemainSeconds)}s`;
+
         // Define the start date (April 8, 2000, 00:00:00 EST/EDT)
         // On April 8, 2000, Eastern Daylight Time (EDT, UTC-4) would have been in effect.
         const startDate = new Date('2000-04-08T00:00:00-04:00'); 
@@ -199,7 +235,6 @@
         document.getElementById('elapsedDays').textContent = `in Days: ${formatNumberWithCommas(totalDaysElapsed)} `;
         document.getElementById('elapsedWeeks').textContent = `in Weeks: ${formatNumberWithCommas(totalWeeksElapsed)} `;
         document.getElementById('elapsedYears').textContent = `Total: ${formatYearsBreakdown(diffMsElapsed)}`;
-
 
         // --- Calculate time left until 2045-04-08 ---
         let diffMsLeft = goalDate.getTime() - now.getTime();
